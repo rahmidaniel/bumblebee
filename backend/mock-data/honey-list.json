@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "akac",
+    "price": 16
+  },
+  {
+    "id": 2,
+    "name": "gyogy",
+    "price": 32
+  },
+  {
+    "id": 3,
+    "name": "hars",
+    "price": 64
+  },
+  {
+    "id": 4,
+    "name": "virag",
+    "price": 128
+  },
+  {
+    "id": 5,
+    "name": "repce",
+    "price": 256
+  }
+]

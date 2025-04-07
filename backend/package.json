@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "module": "server.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "bun server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.14.0",
+    "prettier": "3.5.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "fastify": "^5.2.2"
+  }
+}
