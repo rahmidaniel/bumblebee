@@ -1,6 +1,6 @@
-import { HoneyType } from '@/interfaces/honeyType.type.ts'
+import { HoneyItem } from '@/interfaces/honeyItem.interface.ts'
 
 export interface CartItem {
-  type: HoneyType
+  honey: HoneyItem
   quantity: number
 }

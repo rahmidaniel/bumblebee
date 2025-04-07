@@ -1,13 +1,13 @@
 import { createContext } from 'react'
-import { HoneyType } from '@/interfaces/honeyType.type.ts'
-import { CartItem } from '@/interfaces/cartItem.interface.ts'
+import type { HoneyItem } from '@/interfaces/honeyItem.interface'
+import type { CartItem } from '@/interfaces/cartItem.interface'
 
 interface CartContextType {
   cart: CartItem[]
-  addToCart: (type: HoneyType, quantity: number) => void
-  removeFromCart: (type: HoneyType) => void
+  addToCart: (honey: HoneyItem, quantity: number) => void
+  removeFromCart: (id: number) => void
   clearCart: () => void
-  getItemQuantity: (type: HoneyType) => number
+  getItemQuantity: (id: number) => number
   totalItems: number
 }
 

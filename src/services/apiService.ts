@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { HoneyItem } from '@/interfaces/honeyItem.interface.ts'
 import { ApiResponse } from '@/interfaces/apiResponse.interface.ts'
 import { LoginParams } from '@/interfaces/loginParams.interface.ts'
+import { CartItem } from '@/interfaces/cartItem.interface.ts'
 
 const client: AxiosInstance = axios.create({
   baseURL: '/api',
@@ -17,10 +18,10 @@ class ApiService {
     return response.data.data
   }
 
-  async submitOrder(honeyList: HoneyItem[]): Promise<string> {
+  async submitOrder(cartItems: CartItem[]): Promise<string> {
     const response: AxiosResponse<ApiResponse<string>> = await client.post(
       '/order',
-      honeyList
+      cartItems
     )
     return response.data.status
   }

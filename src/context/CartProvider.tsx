@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useState } from 'react'
-import { CartContext } from '@/context/CartContext.tsx'
-import { HoneyType } from '@/interfaces/honeyType.type.ts'
-import { CartItem } from '@/interfaces/cartItem.interface.ts'
+import { CartContext } from '@/context/CartContext'
+import type { HoneyItem } from '@/interfaces/honeyItem.interface'
+import type { CartItem } from '@/interfaces/cartItem.interface'
 
 interface CartProviderProps {
   children: ReactNode
@@ -17,32 +17,31 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     localStorage.setItem('cart', JSON.stringify(cart))
   }, [cart])
 
-  const addToCart = (type: HoneyType, quantity: number) => {
+  const addToCart = (honey: HoneyItem, quantity: number) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.type === type)
-
+      const existingItem = prevCart.find((item) => item.honey.id === honey.id)
       if (existingItem) {
         return prevCart.map((item) =>
-          item.type === type
+          item.honey.id === honey.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         )
       } else {
-        return [...prevCart, { type, quantity }]
+        return [...prevCart, { honey, quantity }]
       }
     })
   }
 
-  const removeFromCart = (type: HoneyType) => {
-    setCart((prevCart) => prevCart.filter((item) => item.type !== type))
+  const removeFromCart = (id: number) => {
+    setCart((prevCart) => prevCart.filter((item) => item.honey.id !== id))
   }
 
   const clearCart = () => {
     setCart([])
   }
 
-  const getItemQuantity = (type: HoneyType) => {
-    const item = cart.find((item) => item.type === type)
+  const getItemQuantity = (id: number) => {
+    const item = cart.find((item) => item.honey.id === id)
     return item ? item.quantity : 0
   }
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { Button } from './ui/button'
 import {
@@ -17,31 +19,30 @@ import {
 } from './ui/select'
 import { Plus } from 'lucide-react'
 import { toast } from 'sonner'
-import { useCart } from '@/context/UseCart.tsx'
-import { HoneyType } from '@/interfaces/honeyType.type.ts'
+import { useCart } from '@/context/UseCart'
+import type { HoneyItem } from '@/interfaces/honeyItem.interface'
 
 interface HoneyCardProps {
-  type: HoneyType
-  name: string
-  description: string
+  honey: HoneyItem
 }
 
-const HoneyCard = ({ type, name, description }: HoneyCardProps) => {
+const HoneyCard = ({ honey }: HoneyCardProps) => {
   const [quantity, setQuantity] = useState('1')
   const { addToCart } = useCart()
 
   const handleAddToCart = () => {
     const quantityNum = Number.parseInt(quantity)
-    addToCart(type, quantityNum)
+    addToCart(honey, quantityNum)
 
     toast.success(`Added to cart!`, {
-      description: `${quantityNum} × ${name} added to your cart`,
+      description: `${quantityNum} × ${honey.name} added to your cart`,
     })
   }
 
-  // Get image based on honey type
+  // Get image based on the honey name (using the first word)
   const getHoneyImage = () => {
-    return `/placeholder.svg?height=200&width=200&text=${type.charAt(0).toUpperCase() + type.slice(1)}+Honey`
+    const displayText = honey.name.split(' ')[0]
+    return `/placeholder.svg?height=200&width=200&text=${encodeURIComponent(displayText + ' Honey')}`
   }
 
   return (
@@ -49,14 +50,14 @@ const HoneyCard = ({ type, name, description }: HoneyCardProps) => {
       <div className="relative h-48 overflow-hidden bg-amber-100">
         <img
           src={getHoneyImage() || '/placeholder.svg'}
-          alt={name}
+          alt={honey.name}
           className="h-full w-full object-cover transition-transform hover:scale-105"
         />
       </div>
 
       <CardHeader className="pb-2">
-        <CardTitle className="text-amber-800">{name}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardTitle className="text-amber-800">{honey.name}</CardTitle>
+        <CardDescription>{honey.description}</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -73,7 +74,6 @@ const HoneyCard = ({ type, name, description }: HoneyCardProps) => {
               ))}
             </SelectContent>
           </Select>
-
           <span className="text-sm text-muted-foreground">jar(s)</span>
         </div>
       </CardContent>
@@ -83,7 +83,7 @@ const HoneyCard = ({ type, name, description }: HoneyCardProps) => {
           onClick={handleAddToCart}
           className="w-full bg-amber-500 hover:bg-amber-600"
         >
-          <Plus className="mr-2 size-4" />
+          <Plus className="mr-2 w-4 h-4" />
           Add to Cart
         </Button>
       </CardFooter>

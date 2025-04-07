@@ -3,7 +3,7 @@
 import { Button } from './ui/button'
 import { ScrollArea } from './ui/scroll-area'
 import { Package, ShoppingCart, Trash2 } from 'lucide-react'
-import { useCart } from '@/context/UseCart.tsx'
+import { useCart } from '@/context/UseCart'
 
 interface CartProps {
   onPlaceOrder: () => void
@@ -12,31 +12,19 @@ interface CartProps {
 
 const Cart = ({ onPlaceOrder, isSubmitting }: CartProps) => {
   const { cart, removeFromCart, clearCart } = useCart()
-
-  const getHoneyName = (type: string): string => {
-    const names: Record<string, string> = {
-      acacia: 'Acacia Honey',
-      herbal: 'Herbal Honey',
-      linden: 'Linden Honey',
-      wildflower: 'Wildflower Honey',
-      rapeseed: 'Rapeseed Honey',
-    }
-    return names[type] || type
-  }
-
   const isEmpty = cart.length === 0
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col bg-white">
       <div className="mb-4 flex items-center gap-2 border-b border-amber-200 pb-4">
-        <ShoppingCart className="size-5 text-amber-600" />
+        <ShoppingCart className="w-5 h-5 text-amber-600" />
         <h2 className="text-xl font-semibold text-amber-800">Your Cart</h2>
       </div>
 
       {isEmpty ? (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 py-8 text-center">
           <div className="rounded-full bg-amber-100 p-6">
-            <ShoppingCart className="size-10 text-amber-400" />
+            <ShoppingCart className="w-10 h-10 text-amber-400" />
           </div>
           <div>
             <h3 className="text-lg font-medium">Your cart is empty</h3>
@@ -51,12 +39,12 @@ const Cart = ({ onPlaceOrder, isSubmitting }: CartProps) => {
             <ul className="space-y-4">
               {cart.map((item) => (
                 <li
-                  key={item.type}
+                  key={item.honey.id}
                   className="flex items-center justify-between rounded-lg border border-amber-100 bg-white p-3 shadow-sm"
                 >
                   <div>
                     <h3 className="font-medium text-amber-800">
-                      {getHoneyName(item.type)}
+                      {item.honey.name}
                     </h3>
                     <p className="text-sm text-muted-foreground">
                       Quantity: {item.quantity}
@@ -65,10 +53,10 @@ const Cart = ({ onPlaceOrder, isSubmitting }: CartProps) => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => removeFromCart(item.type)}
-                    className="size-8 text-amber-700 hover:bg-amber-100 hover:text-amber-800"
+                    onClick={() => removeFromCart(item.honey.id)}
+                    className="w-8 h-8 text-amber-700 hover:bg-amber-100 hover:text-amber-800"
                   >
-                    <Trash2 className="size-4" />
+                    <Trash2 className="w-4 h-4" />
                   </Button>
                 </li>
               ))}
@@ -82,16 +70,19 @@ const Cart = ({ onPlaceOrder, isSubmitting }: CartProps) => {
                 onClick={clearCart}
                 className="border-amber-200 text-amber-700 hover:bg-amber-100 hover:text-amber-800"
               >
-                <Trash2 className="mr-2 size-4" />
+                <Trash2 className="mr-2 w-4 h-4" />
                 Clear Cart
               </Button>
 
               <Button
-                onClick={onPlaceOrder}
+                onClick={async () => {
+                  await onPlaceOrder()
+                  clearCart()
+                }}
                 disabled={isSubmitting}
                 className="bg-amber-500 hover:bg-amber-600"
               >
-                <Package className="mr-2 size-4" />
+                <Package className="mr-2 w-4 h-4" />
                 {isSubmitting ? 'Ordering...' : 'Place Order'}
               </Button>
             </div>
