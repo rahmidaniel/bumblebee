@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react"
+import LoginPage from "./pages/LoginPage"
+import HoneyListPage from "./pages/HoneyListPage"
+import { toast } from "sonner"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const loggedInStatus = localStorage.getItem("isLoggedIn")
+    if (loggedInStatus === "true") {
+      setIsLoggedIn(true)
+    }
+  }, [])
+
+  const handleLogin = () => {
+    setIsLoggedIn(true)
+    localStorage.setItem("isLoggedIn", "true")
+    toast.success("Login successful!", {
+      description: "Welcome to the Honey Shop!",
+    })
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    localStorage.removeItem("isLoggedIn")
+    toast.info("Logged out", {
+      description: "You have been logged out successfully.",
+    })
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-h-dvh bg-amber-50">
+      {isLoggedIn ? <HoneyListPage onLogout={handleLogout} /> : <LoginPage onLogin={handleLogin} />}
+    </div>
   )
 }
 
 export default App
+

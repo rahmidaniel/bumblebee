@@ -1,27 +1,32 @@
 [
   {
     "id": 1,
-    "name": "akac",
+    "name": "Acacia Honey",
+    "description": "Light and delicate with a mild floral taste. Perfect for tea and desserts.",
     "price": 16
   },
   {
     "id": 2,
-    "name": "gyogy",
+    "name": "Herbal Honey",
+    "description": "Rich in flavor with herbal undertones. Great for medicinal purposes.",
     "price": 32
   },
   {
     "id": 3,
-    "name": "hars",
+    "name": "Linden Honey",
+    "description": "Sweet with a woody aroma. Excellent for soothing sore throats.",
     "price": 64
   },
   {
     "id": 4,
-    "name": "virag",
+    "name": "Wildflower Honey",
+    "description": "Complex flavor profile that changes with the seasons. A true taste of nature.",
     "price": 128
   },
   {
     "id": 5,
-    "name": "repce",
+    "name": "Rapeseed Honey",
+    "description": "Creamy texture with a mild taste. Perfect for spreading on bread.",
     "price": 256
   }
 ]
